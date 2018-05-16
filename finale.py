@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, render_template, request, redirect, session, url_for, g, flash, escape
+from flask import Flask, render_template, request, redirect, session, url_for, g, escape
 
 
 

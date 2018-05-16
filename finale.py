@@ -50,8 +50,8 @@ def login():
 
 @app.route('/page', methods = ['GET'])
 def page():
-    curs = g.db.execute('select blognum, title, date, author, content from blogs ORDER BY blognum DESC')
-    blogs = [dict(blognum = row[0], title = row[1], date = row[2], author = row[3], content = row[4])
+    curs = g.db.execute('select blog_id, title, date, author, content from blogs ORDER BY blog_id DESC')
+    blogs = [dict(blog_id = row[0], title = row[1], date = row[2], author = row[3], content = row[4])
                     for row in curs.fetchall()]
     return render_template("web.html", blogs=blogs)
 
@@ -69,8 +69,8 @@ def addblog():
 @app.route('/edit/post', methods=['GET', 'POST'])
 def editpost():
     if request.method == 'POST':
-        g.db.execute('update blogs SET title=?, author=?, date=?, content=? WHERE blognum=?',
-                     [request.form['title'], request.form['author'],request.form['date'],request.form['content'],request.form['blognum']])
+        g.db.execute('update blogs SET title=?, author=?, date=?, content=? WHERE blog_id=?',
+                     [request.form['title'], request.form['author'],request.form['date'],request.form['content'],request.form['blog_id']])
         g.db.commit()
         return redirect(url_for('page'))
     return render_template('editpost.html')
@@ -78,8 +78,8 @@ def editpost():
 @app.route('/delete/post', methods=['GET', 'POST'])
 def deletepost():
     if request.method == 'POST':
-        g.db.execute('DELETE FROM blogs WHERE blognum=?',
-                     [request.form['blognum']])
+        g.db.execute('DELETE FROM blogs WHERE blog_id=?',
+                     [request.form['blog_id']])
         g.db.commit()
         return redirect(url_for('page'))
     return render_template('deletepost.html')
